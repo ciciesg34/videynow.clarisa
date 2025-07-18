@@ -1,1 +1,423 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lato Atea V.03</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-P9adkL5r/g02rN5Vf9i/Ff9F4h6rC2F1U0nFp7lF9n/w/X/b+w/h/c/e/d/a/x/y/z/A/B/C/D/E/F/G/H/I/J/K/L/M/N/O/P/Q/R/S/T/U/V/W/X/Y/Z/0/1/2/3/4/5/6/7/8/9/+/" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --background-light: #000; 
+            --text-dark: #343a40;
+            --text-light: #ffffff;
+            --card-bg: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-light);
+            justify-content: center;
+        }
+
+        header {
+            width: 100%;
+            background-color: #111;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .site-title {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .video-player-section {
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 25px var(--shadow-light);
+            overflow: hidden; 
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .video-container {
+            background-color: #000;
+            width: 100%;
+            height: auto;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            max-width: 100%;
+        }
+
+        .loading-message {
+            text-align: center;
+            color: var(--secondary-color);
+            padding: 20px;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+
+        .ad-section {
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        .ad-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .ad-section img:hover {
+            transform: scale(1.03);
+        }
+
+        .histats-container {
+            margin-top: 15px;
+            padding: 10px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 98%;
+                padding: 10px;
+            }
+            .video-player-section, .ad-section {
+                margin-bottom: 20px;
+            }
+            .site-title {
+                font-size: 1.4rem;
+            }
+        /* Container for fixed ad */
+        #mobileAdContainer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 50px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Optional close button */
+        #closeAdBtn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            background: #333;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Ensure content doesn't hide behind ad */
+        body {
+            margin-bottom: 60px; /* Extra space at bottom */
+        }
+                /* Popup Notification Styles */
+        .donation-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            font-family: 'Arial', sans-serif;
+            z-index: 1000;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: 1px solid #e1e1e1;
+            display: none;
+        }
+        
+        .donation-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+            display: block;
+        }
+        
+        .donation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .donation-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+        }
+        
+        .close-btn:hover {
+            color: #666;
+        }
+        
+        .donation-message {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        
+        .donation-btn {
+            display: inline-block;
+            background-color: #6c5ce7;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .donation-btn:hover {
+            background-color: #5649c0;
+        }
+        }
+    </style>
+   <script type='text/javascript' src='//discreetisabella.com/aa/ac/a7/aaaca71a43e03a35750d4daa6b95dbb9.js'></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="site-title">Lato Atea V.03</h1>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <div class="video-player-section">
+            <div class="video-container">
+                <video controls playsinline id="mainVideo">
+                    Sorry, your browser doesn't support the video tag.
+                </video>
+            </div>
+            <p class="loading-message" id="loadingMessage">Loading video...</p>
+        </div>
+
+        <div class="ad-section">
+            <div id="adsterra-native-banner" class="ad-placeholder">
+                <iframe src="https://iklan-api-member.vercel.app" width="300" height="300" frameborder="0" scrolling="no"></iframe>
+            </div>
+        </div>
+
+        <div class="histats-container">            
+       <script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4964300,4,128,112,33,00011111']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4964300&101" alt="" border="0"></a></noscript>
+        </div>
+    </div>
+<!-- Ad Container -->
+    <div id="mobileAdContainer">
+        <div id="closeAdBtn">✕</div>
+        <iframe src="https://ad2bitcoin.com/ad.php?ref=dydx&width=300" marginwidth="0" marginheight="0" width="300" height="250" scrolling="no" border="0" frameborder="0"></iframe>
+    </div>
+    
+    <!-- Donation Notification Popup -->
+    <div class="donation-notification" id="donationNotification">
+        <div class="donation-header">
+            <span class="donation-title">Support Our Project</span>
+            <button class="close-btn" id="closeDonationBtn">&times;</button>
+        </div>
+        <p class="donation-message">Help us keep improving by donating crypto via CWallet. Every little bit helps!</p>
+        <a href="https://cwallet.com/t/OHBP7ZSD" target="_blank" class="donation-btn">Donate with Crypto</a>
+    </div>
+
+         <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const videoElement = document.getElementById('mainVideo');
+        const loadingMessage = document.getElementById('loadingMessage');
+
+        // Define base URLs for both domains
+        const baseUrls = {
+            videy: "https://cdn.videy.co/",
+            quax: "https://qu.ax/"
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestedVideoId = urlParams.get('videoID'); 
+
+        fetch('video_data.json')
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                if (!data.videos || data.videos.length === 0) {
+                    throw new Error('No videos found in JSON');
+                }
+
+                // Find requested video or default to first
+                let selectedVideo = requestedVideoId
+                    ? data.videos.find(v => v.id === requestedVideoId) || data.videos[0]
+                    : data.videos[0];
+
+                // Determine source (default to 'videy' if missing)
+                const source = selectedVideo.source || 'videy';
+                const baseUrl = baseUrls[source] || baseUrls.videy;
+
+                // Build video URL
+                const videoUrl = baseUrl + selectedVideo.id + ".mp4";
+                videoElement.innerHTML = `<source src="${videoUrl}" type="video/mp4">`;
+                videoElement.load();
+                loadingMessage.style.display = 'none';
+            })
+            .catch(error => {
+                loadingMessage.textContent = `Error: ${error.message}`;
+                console.error('Video loading failed:', error);
+            });
+    });
+</script>
+        <script>
+        // Close ad functionality
+        document.getElementById('closeAdBtn').addEventListener('click', function() {
+            const adContainer = document.getElementById('mobileAdContainer');
+            adContainer.style.display = 'none';
+            document.body.style.marginBottom = '0';
+        });
+
+        // Optional: Hide ad on larger screens
+        function checkScreenSize() {
+            const adContainer = document.getElementById('mobileAdContainer');
+            if (window.innerWidth > 768) { // Hide on screens wider than 768px
+                adContainer.style.display = 'none';
+                document.body.style.marginBottom = '0';
+            } else {
+                adContainer.style.display = 'flex';
+                document.body.style.marginBottom = '60px';
+            }
+        }
+
+        // Initial check and window resize listener
+        window.addEventListener('load', checkScreenSize);
+        window.addEventListener('resize', checkScreenSize);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const donationNotification = document.getElementById('donationNotification');
+            const closeBtn = document.getElementById('closeDonationBtn');
+            
+            // Check if user has previously dismissed the notification
+            const notificationDismissed = localStorage.getItem('donationNotificationDismissed');
+            
+            // Show notification after 5 seconds if not dismissed
+            if (!notificationDismissed) {
+                setTimeout(() => {
+                    donationNotification.classList.add('show');
+                }, 5000);
+            }
+            
+            // Close button event
+            closeBtn.addEventListener('click', function() {
+                donationNotification.classList.remove('show');
+                // Remember dismissal for 7 days
+                localStorage.setItem('donationNotificationDismissed', 'true');
+                setTimeout(() => {
+                    localStorage.removeItem('donationNotificationDismissed');
+                }, 7 * 24 * 60 * 60 * 1000); // 7 days in milliseconds
+            });
+            
+            // Optional: Auto-close after 30 seconds
+            setTimeout(() => {
+                if (donationNotification.classList.contains('show')) {
+                    donationNotification.classList.remove('show');
+                }
+            }, 35000);
+        });
+    </script>
+</body>
+</html>
